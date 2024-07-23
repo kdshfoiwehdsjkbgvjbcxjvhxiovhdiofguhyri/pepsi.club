@@ -747,8 +747,8 @@ local AimSettings = {
     Hitbox = 'Head'
 }
 
-local function getClosest(cframe)
-   local ray = Ray.new(cframe.Position, cframe.LookVector).Unit
+local function getClosest(CFrame)
+   local ray = Ray.new(CFrame.Position, CFrame.LookVector).Unit
    
    local target = nil
    local mag = math.huge
@@ -1232,7 +1232,6 @@ Options.mov_keystrokescolor:OnChanged(function()
     R.TextColor3 = Options.mov_keystrokescolor.Value
     Space.TextColor3 = Options.mov_keystrokescolor.Value
 end)
-print("this script crashed a lot so i will spam numbers to track where it crashes")
 MiscSec2:AddToggle('mov_edgebugc', {Text = 'Edgebug Counter', Default = false})
 Toggles.mov_edgebugc:OnChanged(function()
     ebcounter.Visible = Toggles.mov_edgebugc.Value
@@ -1388,7 +1387,7 @@ function createBeam(v1, v2)
     Part.Size = Vector3.new(1, 1, 1)
     Part.Transparency = 1
     Part.CanCollide = false
-    Part.cframe = CFrame.new(v1)
+    Part.CFrame = CFrame.new(v1)
     Part.Anchored = true
     -- attachment
     local Attachment = Instance.new("Attachment", Part)
@@ -1397,7 +1396,7 @@ function createBeam(v1, v2)
     Part2.Size = Vector3.new(1, 1, 1)
     Part2.Transparency = 1
     Part2.CanCollide = false
-    Part2.cframe = CFrame.new(v2)
+    Part2.CFrame = CFrame.new(v2)
     Part2.Anchored = true
     Part2.Color = Color3.fromRGB(255, 255, 255)
     -- another attachment
@@ -1719,11 +1718,11 @@ local function Combat()
         
         if pressed and IsAlive(localPlayer) then
             local Line = Drawing.new("Line")
-            local curTar = getClosest(currentCamera.cframe)
+            local curTar = getClosest(currentCamera.CFrame)
             local hbpos = currentCamera:WorldToScreenPoint(curTar.Character[AimSettings.Hitbox].Position)
             hbpos = Vector2.new(hbpos.X, hbpos.Y)
             if (hbpos - currentCamera.ViewportSize/2).Magnitude < AimSettings.Radius then
-                currentCamera.cframe = currentCamera.cframe:Lerp(CFrame.new(currentCamera.cframe.Position, curTar.Character[AimSettings.Hitbox].Position), AimSettings.Smoothness)
+                currentCamera.CFrame = currentCamera.CFrame:Lerp(CFrame.new(currentCamera.CFrame.Position, curTar.Character[AimSettings.Hitbox].Position), AimSettings.Smoothness)
             end
         end
     end
@@ -1778,7 +1777,7 @@ local function Visuals()
 		end
 	end
     
-    local x,y,z = currentCamera.cframe:ToEulerAnglesXYZ()
+    local x,y,z = currentCamera.CFrame:ToEulerAnglesXYZ()
 	x,y,z = math.deg(x),math.deg(y),math.deg(z)
 	
 	Blur.Size = math.clamp((Vector3.new(x,y,z)-lv).Magnitude/2,2,10 + blurvalue)
@@ -1899,8 +1898,8 @@ local function ESP()
                 end
 
                 if esp.settings.viewangle.enabled then
-                    local fromHead = currentCamera:worldToViewportPoint(head.cframe.p)
-                    local toPoint = currentCamera:worldToViewportPoint((head.cframe + (head.cframe.lookVector * 10)).p)
+                    local fromHead = currentCamera:worldToViewportPoint(head.CFrame.p)
+                    local toPoint = currentCamera:worldToViewportPoint((head.CFrame + (head.CFrame.lookVector * 10)).p)
                     v.viewAngle.From = Vector2.new(fromHead.X, fromHead.Y)
                     v.viewAngle.To = Vector2.new(toPoint.X, toPoint.Y)
                     v.viewAngle.Color = esp.settings.viewangle.color
@@ -1969,7 +1968,7 @@ function Movement()
             if IsAlive(localPlayer) and userInput:IsKeyDown(Enum.KeyCode.Space) then
                 localPlayer.Character.Humanoid.Jump = true
                 local speed = Options.mov_bhopspeed.Value
-                local dir = currentCamera.cframe.LookVector * Vector3.new(1,0,1)
+                local dir = currentCamera.CFrame.LookVector * Vector3.new(1,0,1)
                 local move = Vector3.new()
                 move = userInput:IsKeyDown(Enum.KeyCode.W) and move + dir or move
                 move = userInput:IsKeyDown(Enum.KeyCode.S) and move - dir or move
